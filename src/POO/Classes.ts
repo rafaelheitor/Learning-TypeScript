@@ -1,15 +1,16 @@
 import { IEletronicos } from "./interfaces/IEletronicos"
 import { ICelular } from "./interfaces/ICelular"
 
-class Eletronicos implements IEletronicos {
-  tipo
+class Eletronicos {
+  private _tipo
 
   constructor(tipo: string) {
-    this.tipo = tipo
+    this["_tipo"] = tipo
   }
 
-  getTipo(): string {
-    return this.tipo
+  public set tipo(value: string) {
+    if (value.length <= 3) throw new Error("tipo inválido")
+    this["_tipo"] = value
   }
 }
 
@@ -30,4 +31,6 @@ class Celular extends Eletronicos implements ICelular {
 
 const xiaomiMix = new Celular("Mi Mix 3", "Xiaomi", "Celular")
 
-console.log(Celular.telefonar("75981961589"))
+console.log(xiaomiMix)
+
+xiaomiMix.tipo = "TV"
