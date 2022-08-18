@@ -60,13 +60,26 @@ console.log(xiaomiMix.specs)
 
 class Notebook extends Eletronicos {
   private _armazenamento: Hd
-  constructor(tipo: string, nome: string, marca: string) {
+  private _ram: Memoria
+
+  constructor(
+    tipo: string,
+    nome: string,
+    marca: string,
+    ram: Memoria,
+    armazenamento: Hd
+  ) {
     super(tipo, nome, marca)
-    this._armazenamento = new Hd("500GB")
+    this._armazenamento = armazenamento
+    this._ram = ram
   }
 
   get armazenamento(): string {
     return this._armazenamento.space
+  }
+
+  get ramSpecs() {
+    return this._ram.ramSpecs
   }
 }
 
@@ -81,6 +94,32 @@ class Hd {
   }
 }
 
-const samsung = new Notebook("Book E35", "Samsung", "Notebook")
+class Memoria {
+  private size
+  private frequency
+  private slot
+  private manufacturer
+
+  constructor(
+    size: string,
+    frequency: string,
+    slot: string,
+    manufacturer: string
+  ) {
+    this.size = size
+    this.frequency = frequency
+    this.slot = slot
+    this.manufacturer = manufacturer
+  }
+  get ramSpecs() {
+    return `Memoria Ram ${this.manufacturer} ${this.slot} ${this.size}, ${this.frequency}`
+  }
+}
+
+const hd = new Hd("500GB")
+const memoria = new Memoria("8GB", "1333 MHz", "DDR4", "Corsair")
+
+const samsung = new Notebook("Book E35", "Samsung", "Notebook", memoria, hd)
 
 console.log(samsung.armazenamento)
+console.log(samsung.ramSpecs)
