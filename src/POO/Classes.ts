@@ -1,15 +1,15 @@
 import { ICelular } from "./interfaces/ICelular"
 import { IEletronicos } from "./interfaces/IEletronicos"
 
-class Eletronicos implements IEletronicos {
+export class Eletronicos implements IEletronicos {
   private _tipo
-  private _nome
-  private _marca
+  public nome
+  public marca
 
-  constructor(tipo: string, nome: string, marca: string) {
-    this._tipo = tipo
-    this._nome = nome
-    this._marca = marca
+  constructor() {
+    this._tipo = ""
+    this.nome = ""
+    this.marca = ""
   }
 
   public get tipo() {
@@ -22,7 +22,7 @@ class Eletronicos implements IEletronicos {
   }
 
   get specs() {
-    return `${this._tipo} ${this._marca}, ${this._nome}`
+    return `${this._tipo} ${this.marca}, ${this.nome}`
   }
 
   ligar(): string {
@@ -42,9 +42,12 @@ class Eletronicos implements IEletronicos {
   }
 }
 
-class Celular extends Eletronicos implements ICelular {
-  constructor(nome: string, marca: string, tipo: string) {
-    super(tipo, nome, marca)
+export class Celular extends Eletronicos implements ICelular {
+  constructor() {
+    super()
+    this.nome = "Mi mix 3"
+    this.tipo = "Celular"
+    this.marca = "Xiaomi"
   }
 
   telefonar(number: string): string {
@@ -52,29 +55,26 @@ class Celular extends Eletronicos implements ICelular {
   }
 }
 
-const xiaomiMix = new Celular("Mi Mix 3", "Xiaomi", "Celular")
+const xiaomiMix = new Celular()
 
 // console.log(Object.getPrototypeOf(xiaomiMix))
 
 console.log(xiaomiMix.specs)
 
-class Notebook extends Eletronicos {
-  private _armazenamento: Hd
-  private _ram: Memoria
+export class Notebook extends Eletronicos {
+  private _armazenamento
+  private _ram
 
-  constructor(
-    tipo: string,
-    nome: string,
-    marca: string,
-    ram: Memoria,
-    armazenamento: Hd
-  ) {
-    super(tipo, nome, marca)
-    this._armazenamento = armazenamento
-    this._ram = ram
+  constructor() {
+    super()
+    this._armazenamento = new Hd("500GB")
+    this._ram = new Memoria("8GB", "1333 MHz", "DDR4", "Corsair")
+    this.tipo = "Notebook"
+    this.marca = "Samsung"
+    this.nome = "Samsung Book E35"
   }
 
-  get armazenamento(): string {
+  get storage(): string {
     return this._armazenamento.space
   }
 
@@ -119,7 +119,20 @@ class Memoria {
 const hd = new Hd("500GB")
 const memoria = new Memoria("8GB", "1333 MHz", "DDR4", "Corsair")
 
-const samsung = new Notebook("Book E35", "Samsung", "Notebook", memoria, hd)
+// const samsung = new Notebook("Book E35", "Samsung", "Notebook", memoria, hd)
 
-console.log(samsung.armazenamento)
-console.log(samsung.ramSpecs)
+// console.log(samsung.ramSpecs)
+
+class Creator {
+  static createObject(someProperty: string): IEletronicos {
+    if (someProperty === "notebook") {
+      return new Notebook()
+    } else if (someProperty === "celular") {
+      return new Celular()
+    } else {
+      return new Eletronicos()
+    }
+  }
+}
+
+const celular = Creator.createObject("celular")
