@@ -1,13 +1,11 @@
-import { MyDataBaseClassic } from './db/my-db-classic'
+import { MyDataBaseFunction } from './db/my-db-functional'
 import './module-a'
 
-const db2 = MyDataBaseClassic.instance
+const db2 = MyDataBaseFunction
 
 db2.add({ name: 'Silvana', age: 46 })
 db2.add({ name: 'Paulo', age: 23 })
 db2.add({ name: 'Everton', age: 29 })
-
-export { MyDataBaseClassic }
 
 db2.remove(1)
 
