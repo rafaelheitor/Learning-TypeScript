@@ -5,6 +5,6 @@ describe("Test if the class is passing only one object", () => {
     const db1 = MyDataBaseClassic.instance
     const db2 = MyDataBaseClassic.instance
 
-    expect(db1).toBe(db2)
+    expect(db1 === db2).toBeTruthy()
   })
 })
