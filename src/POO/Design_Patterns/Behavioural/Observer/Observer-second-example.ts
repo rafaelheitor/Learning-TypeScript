@@ -1,20 +1,46 @@
+/*
+The Subject interface declares a set of methods for managing subscribers.
+*/
 interface SecondSubject {
+  // Attach an observer to the subject.
   attach(observer: SecondObserver): void;
 
+  // Detach an observer from the subject.
   detach(observer: SecondObserver): void;
 
+  // Notify all observers about an event.
   notify(): void;
 }
 
+/**
+ * The Observer interface declares the update method, used by subjects.
+ */
 interface SecondObserver {
+  // Receive update from subject.
   update(subject: SecondSubject): void;
 }
 
+/**
+ * The Subject owns some important state and notifies observers when the state
+ * changes.
+ */
 class ConcreteSubject implements SecondSubject {
+  /**
+   * @type {number} For the sake of simplicity, the Subject's state, essential
+   * to all subscribers, is stored in this variable.
+   */
   public state!: number;
 
+  /**
+   * @type {Observer[]} List of subscribers. In real life, the list of
+   * subscribers can be stored more comprehensively (categorized by event
+   * type, etc.).
+   */
   private observers: SecondObserver[] = [];
 
+  /**
+   * The subscription management methods.
+   */
   public attach(observer: SecondObserver): void {
     const alreadyExists: boolean = this.observers.includes(observer);
 
@@ -37,6 +63,9 @@ class ConcreteSubject implements SecondSubject {
     console.log("Subject: Detached an observer");
   }
 
+  /**
+   * Trigger an update in each subscriber.
+   */
   public notify(): void {
     console.log("Subject: Notifying observers...");
     for (const observer of this.observers) {
@@ -44,6 +73,12 @@ class ConcreteSubject implements SecondSubject {
     }
   }
 
+  /**
+   * Usually, the subscription logic is only a fraction of what a Subject can
+   * really do. Subjects commonly hold some important business logic, that
+   * triggers a notification method whenever something important is about to
+   * happen (or after it).
+   */
   public someBusinessLogic(): void {
     console.log("\nSubject: I'm doing something important.");
     this.state = Math.floor(Math.random() * (10 + 1));
@@ -53,6 +88,10 @@ class ConcreteSubject implements SecondSubject {
   }
 }
 
+/**
+ * Concrete Observers react to the updates issued by the Subject they had been
+ * attached to.
+ */
 class ConcreteObserverA implements SecondObserver {
   public update(subject: SecondSubject): void {
     if (subject instanceof ConcreteSubject && subject.state !== null) {
@@ -69,6 +108,9 @@ class ConcreteObserverB implements SecondObserver {
   }
 }
 
+/**
+ * The client code.
+ */
 const subject = new ConcreteSubject();
 
 const observer1 = new ConcreteObserverA();
