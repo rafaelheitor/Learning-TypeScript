@@ -1,7 +1,7 @@
 interface IChair {
   type: string;
   dimensions: dimensions;
-  getDimensions(): dimensions;
+  getDimensions(): string;
 }
 
 type dimensions = {
@@ -55,8 +55,8 @@ class ConcreteModernChair implements IChair {
       depth: 60,
     };
   }
-  public getDimensions(): dimensions {
-    return this.dimensions;
+  public getDimensions(): string {
+    return `Modern chair dimensions: ${JSON.stringify(this.dimensions)}`;
   }
 }
 
@@ -74,7 +74,7 @@ class ConcreteModernTable implements ITable {
   }
 
   public getDimensions(): string {
-    return `${JSON.stringify(this.dimensions)}`;
+    return `Modern table dimensions: ${JSON.stringify(this.dimensions)}`;
   }
 
   public attachChair(chair: IChair): string {
@@ -94,8 +94,8 @@ class ConcreteRusticChair implements IChair {
       depth: 60,
     };
   }
-  public getDimensions(): dimensions {
-    return this.dimensions;
+  public getDimensions(): string {
+    return `Rustic chair dimensions: ${JSON.stringify(this.dimensions)}`;
   }
 }
 
@@ -113,7 +113,7 @@ class ConcreteRusticTable implements ITable {
   }
 
   public getDimensions(): string {
-    return `${JSON.stringify(this.dimensions)}`;
+    return `Rustic table dimensions: ${JSON.stringify(this.dimensions)}`;
   }
 
   public attachChair(chair: IChair): string {
